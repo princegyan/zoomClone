@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { StreamCall, StreamTheme } from '@stream-io/video-react-sdk';
 import { useParams } from 'next/navigation';
@@ -10,12 +10,20 @@ import { useGetCallById } from '@/hooks/useGetCallById';
 import Alert from '@/components/Alert';
 import MeetingSetup from '@/components/MeetingSetup';
 import MeetingRoom from '@/components/MeetingRoom';
+import UsernameModal from '@/components/UsernameModal';
 
 const MeetingPage = () => {
   const { id } = useParams();
   const { isLoaded, user } = useUser();
   const { call, isCallLoading } = useGetCallById(id);
   const [isSetupComplete, setIsSetupComplete] = useState(false);
+  const [showUsernameModal, setShowUsernameModal] = useState(false);
+
+  useEffect(() => {
+    if (isLoaded && user && !user.username) {
+      setShowUsernameModal(true);
+    }
+  }, [isLoaded, user]);
 
   if (!isLoaded || isCallLoading) return <Loader />;
 
@@ -34,6 +42,10 @@ const MeetingPage = () => {
     <main className="h-screen w-full">
       <StreamCall call={call}>
         <StreamTheme>
+        <UsernameModal
+          open={showUsernameModal}
+          onOpenChange={setShowUsernameModal}
+        />
 
         {!isSetupComplete ? (
           <MeetingSetup setIsSetupComplete={setIsSetupComplete} />
