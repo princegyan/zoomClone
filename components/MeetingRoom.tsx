@@ -34,7 +34,9 @@ const MeetingRoom = () => {
   const [layout, setLayout] = useState<CallLayoutType>('speaker-left');
   const [showParticipants, setShowParticipants] = useState(false);
   const { useCallCallingState } = useCallStateHooks();
-  const displayName = user?.username || user?.firstName || user?.fullName;
+  // const displayName = user?.username || user?.firstName || user?.fullName;
+  const displayName = "Alfred";
+
 
   // for more detail about types of CallingState see: https://getstream.io/video/docs/react/ui-cookbook/ringing-call/#incoming-call-panel
   const callingState = useCallCallingState();
