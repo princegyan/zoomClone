@@ -50,10 +50,12 @@ const PersonalRoom = () => {
       });
     }
 
-    router.push(`https://zoomm.netlify.app/meeting/${meetingId}?personal=true`);
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
+    router.push(`${baseUrl}/meeting/${meetingId}?personal=true`);
   };
 
-  const meetingLink = `https://zoomm.netlify.app/meeting/${meetingId}?personal=true`;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
+  const meetingLink = `${baseUrl}/meeting/${meetingId}?personal=true`;
 
   return (
     <section className="flex size-full flex-col gap-10 text-white">
