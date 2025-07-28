@@ -53,9 +53,10 @@ const MeetingTypeList = () => {
         },
       });
       setCallDetail(call);
-      if (!values.description) {
-        router.push(`https://zoomm.netlify.app/meeting/${call.id}`);
-      }
+        if (!values.description) {
+          const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
+          router.push(`${baseUrl}/meeting/${call.id}`);
+        }
       toast({
         title: 'Meeting Created',
       });
@@ -67,7 +68,8 @@ const MeetingTypeList = () => {
 
   if (!client || !user) return <Loader />;
 
-  const meetingLink = `https://zoomm.netlify.app/meeting/${callDetail?.id}`;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
+  const meetingLink = `${baseUrl}/meeting/${callDetail?.id}`;
 
   return (
     <section className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
