@@ -21,14 +21,14 @@ const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
       apiKey: API_KEY,
       user: {
         id: user?.id,
-        name: user?.username || user?.id,
+        name: user?.username ?? user?.id,
         image: user?.imageUrl,
       },
       tokenProvider,
     });
 
     setVideoClient(client);
-  }, [user, isLoaded]);
+  }, [isLoaded, user?.id, user?.username, user?.imageUrl]);
 
   if (!videoClient) return <Loader />;
 
