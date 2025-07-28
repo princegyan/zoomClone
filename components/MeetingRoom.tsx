@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { useUser } from '@clerk/nextjs';
 import {
   CallControls,
   CallParticipantsList,
@@ -28,10 +29,12 @@ type CallLayoutType = 'grid' | 'speaker-left' | 'speaker-right';
 const MeetingRoom = () => {
   const searchParams = useSearchParams();
   const isPersonalRoom = !!searchParams.get('personal');
+  const { user } = useUser();
   const router = useRouter();
   const [layout, setLayout] = useState<CallLayoutType>('speaker-left');
   const [showParticipants, setShowParticipants] = useState(false);
   const { useCallCallingState } = useCallStateHooks();
+  const displayName = user?.username || user?.firstName || user?.fullName;
 
   // for more detail about types of CallingState see: https://getstream.io/video/docs/react/ui-cookbook/ringing-call/#incoming-call-panel
   const callingState = useCallCallingState();
@@ -51,6 +54,11 @@ const MeetingRoom = () => {
 
   return (
     <section className="relative h-screen w-full overflow-hidden pt-4 text-white">
+      {displayName && (
+        <h2 className="absolute left-2 top-2 text-lg font-semibold">
+          {displayName}
+        </h2>
+      )}
       <div className="relative flex size-full items-center justify-center">
         <div className=" flex size-full max-w-[1000px] items-center">
           <CallLayout />
