@@ -20,6 +20,7 @@ const UsernameModal = ({ open, onOpenChange }: UsernameModalProps) => {
     if (!user || !username) return
     try {
       await user.update({ username })
+      await user.reload()
       onOpenChange(false)
     } catch (error) {
       console.error(error)
